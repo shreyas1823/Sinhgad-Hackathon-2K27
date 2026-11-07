@@ -1,0 +1,9 @@
+.sound-preview { position: fixed; z-index: 80; right: 16px; bottom: 16px; width: min(390px,calc(100vw - 32px)); max-height: 70svh; overflow: auto; padding: 18px; color: #eaf0ff; background: #10172a; border: 1px solid #6478ad; border-radius: 8px; box-shadow: 0 15px 50px #0008; font-size: 13px; }
+.sound-preview summary { cursor: pointer; font-weight: 700; }
+.sound-preview p { margin: 12px 0; color: #bac7e0; line-height: 1.5; }
+.sound-preview-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.sound-preview button { cursor: pointer; padding: 10px; text-align: left; background: #1c2844; border: 1px solid #50638c; border-radius: 4px; }
+.sound-preview-row > button:first-child { flex: 1; }
+.sound-preview button[aria-pressed=true] { border-color: #aeceff; background: #30436c; }
+.sound-preview button:disabled { cursor: default; opacity: .45; }
+.sound-preview small { display: block; margin-top: 5px; color: #bac7e0; line-height: 1.4; }
