@@ -49,6 +49,77 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState('home')
   const { enabled: soundEnabled, toggle: toggleSound, play: playSound, playEffect, preset, setPreset, preview } = useNavigationSound()
+  useGSAP(() => {
+    const screen = document.getElementById('boot-screen')
+    if (!screen) return
+    const content = root.current?.querySelector<HTMLElement>('.hero-content')
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let entrance: gsap.core.Tween | undefined
+    let fallback: number | undefined
+
+    const removeLoader = () => {
+      screen.removeEventListener('transitionend', onTransitionEnd)
+      window.clearTimeout(fallback)
+      screen.remove()
+    }
+    const onTransitionEnd = (event: TransitionEvent) => {
+      if (event.target === screen && event.propertyName === 'opacity') removeLoader()
+    }
+    const stopListening = () => {
+      content?.removeEventListener('focusin', finish)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('hashchange', finish)
+      window.removeEventListener('pageshow', onPageShow)
+      motion.removeEventListener('change', onMotionChange)
+    }
+    const revealContent = () => {
+      content?.style.removeProperty('opacity')
+      content?.style.removeProperty('transform')
+      content?.classList.remove('is-entering')
+      stopListening()
+    }
+    const finish = () => {
+      entrance?.kill()
+      revealContent()
+      removeLoader()
+    }
+    const onScroll = () => { if (window.scrollY > 0) finish() }
+    const onPageShow = (event: PageTransitionEvent) => { if (event.persisted) finish() }
+    const onMotionChange = () => { if (motion.matches) finish() }
+    const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    const belowHero = Boolean(window.location.hash && !['#home', '#main', '#hero-title'].includes(window.location.hash))
+
+    try {
+      if (!content || motion.matches || window.scrollY > 0 || belowHero || navigationEntry?.type === 'back_forward' || content.contains(document.activeElement)) {
+        finish()
+      } else {
+        // useGSAP establishes this state in the layout phase, before the hero paints.
+        content.classList.add('is-entering')
+        entrance = gsap.fromTo(content, { opacity: 0, y: 12 }, {
+          opacity: 1, y: 0, force3D: false, duration: 0.5, ease: 'power1.out', onComplete: revealContent,
+        })
+        content.addEventListener('focusin', finish)
+        window.addEventListener('scroll', onScroll, { passive: true })
+        window.addEventListener('hashchange', finish)
+        window.addEventListener('pageshow', onPageShow)
+        motion.addEventListener('change', onMotionChange)
+        screen.addEventListener('transitionend', onTransitionEnd)
+        screen.classList.add('is-ready')
+        // Cleanup only: interrupted CSS transitions must not leave an overlay behind.
+        fallback = window.setTimeout(removeLoader, 500)
+      }
+    } catch {
+      // Content is visible by default if entrance setup is unavailable.
+      finish()
+    }
+    return () => {
+      stopListening()
+      screen.removeEventListener('transitionend', onTransitionEnd)
+      window.clearTimeout(fallback)
+      content?.classList.remove('is-entering')
+      // useGSAP reverts its tweens; retain the overlay for Strict Mode's setup replay.
+    }
+  }, { scope: root })
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
     onScroll()
