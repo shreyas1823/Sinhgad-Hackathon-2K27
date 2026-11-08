@@ -146,22 +146,49 @@ function App() {
   }
   useEffect(() => {
     if (!menuOpen) return
+    const trigger = document.querySelector<HTMLButtonElement>('.menu-toggle')
+    nav.current?.querySelector<HTMLAnchorElement>('a[href]')?.focus({ preventScroll: true })
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setMenuOpen(false)
-        document.querySelector<HTMLButtonElement>('.menu-toggle')?.focus()
+        trigger?.focus({ preventScroll: true })
       }
     }
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !nav.current?.contains(event.target) && !trigger?.contains(event.target)) {
+        if (nav.current?.contains(document.activeElement)) trigger?.focus({ preventScroll: true })
+        setMenuOpen(false)
+      }
+    }
+    const onFocusIn = (event: FocusEvent) => {
+      if (event.target instanceof Node && !nav.current?.contains(event.target) && !trigger?.contains(event.target)) setMenuOpen(false)
+    }
+    const onResize = () => { if (window.innerWidth > 1100) setMenuOpen(false) }
     window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    window.addEventListener('resize', onResize)
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('focusin', onFocusIn)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('resize', onResize)
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('focusin', onFocusIn)
+      document.body.style.overflow = previousOverflow
+    }
   }, [menuOpen])
+  const closeMenu = () => {
+    setMenuOpen(false)
+    if (window.innerWidth <= 1100) document.querySelector<HTMLButtonElement>('.menu-toggle')?.focus({ preventScroll: true })
+  }
   useEffect(() => {
     const container = nav.current
     if (!container) return
     const indicator = container.querySelector<HTMLElement>('.nav-indicator')
     const position = () => {
       const target = navHover.current ?? container.querySelector<HTMLElement>('a[aria-current]')
-      if (!target || !indicator || window.innerWidth < 900) {
+      if (!target || !indicator || window.innerWidth <= 1100) {
         indicator?.classList.remove('is-visible')
         return
       }
@@ -178,7 +205,7 @@ function App() {
     const container = nav.current
     const indicator = container?.querySelector<HTMLElement>('.nav-indicator')
     const selected = target ?? container?.querySelector<HTMLElement>('a[aria-current]')
-    if (!indicator || !selected || window.innerWidth < 900) { indicator?.classList.remove('is-visible'); return }
+    if (!indicator || !selected || window.innerWidth <= 1100) { indicator?.classList.remove('is-visible'); return }
     indicator.style.width = `${selected.offsetWidth + 18}px`
     indicator.style.transform = `translateX(${selected.offsetLeft - 9}px)`
     indicator.classList.add('is-visible')
@@ -220,11 +247,14 @@ function App() {
       <a href="#home" className="brand" onClick={() => setMenuOpen(false)}>Sinhgad <span>Hackathon</span> 2K27<small>{event.college}</small></a>
       <nav ref={nav} className={`site-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Primary navigation" id="primary-nav" onPointerLeave={() => setNavHover(null)} onFocusCapture={(event) => { if (event.target instanceof HTMLAnchorElement && !event.target.classList.contains('nav-register')) setNavHover(event.target) }} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setNavHover(null) }}>
         <span className="nav-indicator" aria-hidden="true" />
-        {navigation.map(({ label, href }) => <a key={href} href={href} aria-current={active === href.slice(1) ? 'location' : undefined} onPointerEnter={(event) => { if (event.pointerType === 'mouse') { playSound(); setNavHover(event.currentTarget) } }} onClick={() => setMenuOpen(false)}>{label}</a>)}
-        <a className="nav-register magnetic-button" href={event.registrationUrl} target="_blank" rel="noopener noreferrer" onPointerEnter={(event) => { if (event.pointerType === 'mouse') playSound() }} onClick={() => setMenuOpen(false)}>Register Now <ArrowUpRight size={16} aria-hidden="true" /></a>
+        {navigation.flatMap(({ label, href }) => {
+          const link = <a key={href} href={href} aria-current={active === href.slice(1) ? 'location' : undefined} onPointerEnter={(event) => { if (event.pointerType === 'mouse') { playSound(); setNavHover(event.currentTarget) } }} onClick={closeMenu}>{label}</a>
+          return href === '#about' ? [link, <a key="event" className="compact-event-link" href="#event" onClick={closeMenu}>Event</a>] : [link]
+        })}
+        <a className="nav-register magnetic-button" href={event.registrationUrl} target="_blank" rel="noopener noreferrer" onPointerEnter={(event) => { if (event.pointerType === 'mouse') playSound() }} onClick={closeMenu}>Register Now <ArrowUpRight size={16} aria-hidden="true" /></a>
       </nav>
       <button className={`sound-toggle ${soundEnabled ? 'is-on' : ''}`} type="button" aria-label={`Turn navigation sound ${soundEnabled ? 'off' : 'on'}`} aria-pressed={soundEnabled} onClick={() => { void toggleSound() }}>{soundEnabled ? <Volume2 size={18} aria-hidden="true" /> : <VolumeX size={18} aria-hidden="true" />}<span className="sound-label">Sound {soundEnabled ? 'on' : 'off'}</span></button>
-      <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-controls="primary-nav" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={24} /> : <Menu size={24} />}</button>
+      <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-controls="primary-nav" aria-expanded={menuOpen} aria-haspopup="true" onClick={() => { if (menuOpen) closeMenu(); else setMenuOpen(true) }}>{menuOpen ? <X size={24} /> : <Menu size={24} />}</button>
     </header>
     <main id="main">
       <section className="hero" id="home" aria-labelledby="hero-title">
