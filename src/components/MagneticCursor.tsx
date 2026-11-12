@@ -34,7 +34,7 @@ export default function MagneticCursor() {
       if (!media.matches || !hasPointer) return
       frameX += (x - frameX) * .28
       frameY += (y - frameY) * .28
-      frameElement.style.transform = `translate3d(${frameX}px, ${frameY}px, 0) translate(-50%, -50%)`
+      frameElement.style.translate = `${frameX}px ${frameY}px`
       if (Math.abs(x - frameX) + Math.abs(y - frameY) > .25) frame = requestAnimationFrame(tick)
     }
     const onMove = (event: PointerEvent) => {
@@ -48,7 +48,7 @@ export default function MagneticCursor() {
       x = event.clientX
       y = event.clientY
       if (!hasPointer) { frameX = x; frameY = y; hasPointer = true }
-      dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`
+      dot.style.translate = `${x}px ${y}px`
       cursor.classList.add('is-visible')
       document.documentElement.classList.add('custom-cursor-active')
       const targets = document.querySelectorAll<HTMLElement>(selector)

@@ -229,7 +229,8 @@ section[id] { scroll-margin-top: 78px; }
 html.custom-cursor-active, html.custom-cursor-active body, html.custom-cursor-active .site-shell, html.custom-cursor-active .site-shell * { cursor: none !important; }
 .interaction-cursor { inset: 0 auto auto 0; width: 0; height: 0; border: 0; border-radius: 0; background: none; box-shadow: none; transition: opacity .15s; }
 .interaction-cursor.is-visible { opacity: 1; }
-.cursor-frame, .cursor-dot { position: fixed; left: 0; top: 0; pointer-events: none; }
+/* JS owns the independent translate; press scaling stays local to the centred shape. */
+.cursor-frame, .cursor-dot { position: fixed; left: 0; top: 0; pointer-events: none; transform: translate(-50%, -50%); transform-origin: 0 0; }
 .cursor-frame { width: 52px; height: 52px; border: 1px solid rgba(238, 243, 255, .75); background: transparent; transition: width .2s, height .2s, border-color .2s, scale .13s; }
 .cursor-dot { width: 9px; height: 9px; background: #f6f8ff; transition: background .2s, scale .13s; }
 .interaction-cursor.is-interactive .cursor-frame { width: 58px; height: 58px; border-color: rgba(157, 176, 255, .9); }
