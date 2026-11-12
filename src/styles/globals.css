@@ -49,6 +49,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .hero-copy p, .passage-content > p:last-child, .closing > p:not(.section-label) { color: #aab5ce; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.8; }
 .development { display: inline-flex; align-items: center; gap: 9px; margin-top: 34px; padding-bottom: 8px; border-bottom: 1px solid #788afa; color: white; font-size: 13px; font-weight: 700; }
 .hero-globe { position: absolute; z-index: 2; width: min(55vw, 700px); height: min(55vw, 700px); right: -1%; top: 50%; transform: translateY(-50%); will-change: transform; }
+.hero-globe .touch-pan-y > div, .hero-globe canvas { touch-action: pan-y !important; }
 .hero-halo { position: absolute; width: 65vw; height: 65vw; max-width: 900px; max-height: 900px; right: -12%; top: -18%; border-radius: 50%; background: radial-gradient(circle, rgba(78,77,214,.14), transparent 67%); pointer-events: none; }
 .hero-orbit { position: absolute; width: 72vw; height: 72vw; max-width: 1050px; max-height: 1050px; right: -17%; top: -24%; border: 1px solid rgba(112,145,255,.09); border-radius: 50%; pointer-events: none; }
 .scroll-cue { position: absolute; z-index: 4; bottom: 43px; left: max(24px, calc((100vw - 1280px)/2)); display: flex; align-items: center; gap: 14px; }
@@ -101,10 +102,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .site-header { min-height: 70px; }
   .college { display: none; }
   .hero { min-height: 790px; align-items: start; }
-  .hero-inner { padding-top: 80px; padding-bottom: 310px; }
+  .hero-inner { padding-top: 80px; padding-bottom: 380px; }
   .hero-title { font-size: clamp(54px, 13vw, 72px); }
   .hero-copy { padding-top: 23px; }
-  .hero-globe { width: min(100vw, 430px); height: min(100vw, 430px); right: -15%; bottom: 0; }
+  .hero-globe { width: min(100vw, 430px); height: min(100vw, 430px); right: -15%; bottom: 70px; }
+  .hero-globe .globe-fallback { transform: translateX(-15%); }
   .hero-orbit { display: none; }
   .scroll-cue { bottom: 24px; }
   .passage { min-height: 800px; padding-top: 120px; padding-bottom: 200px; }
@@ -131,6 +133,7 @@ section[id] { scroll-margin-top: 78px; }
 .button-primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 50px; padding: 0 22px; border: 1px solid #a1b9ff; border-radius: 3px; color: #061023 !important; background: linear-gradient(110deg,#a6ddff,#b1a7ff); font-size: 13px; font-weight: 700; box-shadow: 0 12px 40px rgba(67,101,245,.2); transition: transform .2s, box-shadow .2s; }
 .button-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 45px rgba(67,101,245,.32); }
 .button-text { display: inline-flex; align-items: center; gap: 9px; color: white; font-size: 13px; font-weight: 700; }
+@media (pointer: coarse) { .hero-actions .button-text { min-height: 44px; } }
 .hero-copy .hero-meta { margin-top: 24px; color: #c6d2ea; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .hero-meta span { color: #7c8cae; padding: 0 7px; }
 .section-wrap { position: relative; padding: clamp(100px,11vw,170px) clamp(24px,7vw,110px); }

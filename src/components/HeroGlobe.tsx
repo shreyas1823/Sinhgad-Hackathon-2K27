@@ -27,7 +27,7 @@ export default function HeroGlobe() {
     >
       <div className="pointer-events-none absolute inset-[12%] rounded-full bg-cyan-500/10 blur-[70px]" aria-hidden="true" />
       {canRender === false ? (
-        <div className="flex h-full items-center justify-center rounded-full border border-cyan-400/20 bg-surface/40 p-8 text-center text-sm text-muted">
+        <div className="globe-fallback flex h-full items-center justify-center rounded-full border border-cyan-400/20 bg-surface/40 p-8 text-center text-sm text-muted">
           Interactive globe unavailable: this browser does not support WebGL.
         </div>
       ) : (
