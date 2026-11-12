@@ -21,6 +21,7 @@ export default function MagneticCursor() {
     let hasPointer = false
 
     const reset = () => {
+      document.documentElement.classList.remove('custom-cursor-active')
       active?.style.removeProperty('--mag-x')
       active?.style.removeProperty('--mag-y')
       active = null
@@ -37,12 +38,19 @@ export default function MagneticCursor() {
       if (Math.abs(x - frameX) + Math.abs(y - frameY) > .25) frame = requestAnimationFrame(tick)
     }
     const onMove = (event: PointerEvent) => {
-      if (event.pointerType !== 'mouse' || !media.matches) return
+      if (event.pointerType !== 'mouse') { hasPointer = false; reset(); return }
+      if (!media.matches) return
+      if (event.target instanceof Element && event.target.closest('input, textarea, [contenteditable]:not([contenteditable="false"])')) {
+        hasPointer = false
+        reset()
+        return
+      }
       x = event.clientX
       y = event.clientY
       if (!hasPointer) { frameX = x; frameY = y; hasPointer = true }
       dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`
       cursor.classList.add('is-visible')
+      document.documentElement.classList.add('custom-cursor-active')
       const targets = document.querySelectorAll<HTMLElement>(selector)
       let nearest: HTMLElement | null = null
       let distance = 72
