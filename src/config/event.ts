@@ -37,7 +37,26 @@ export const tracks: Record<'round1' | 'round2', ProblemStatement[]> = {
   round1: [],
   round2: [],
 }
-export const schedule: { time: string; title: string; description?: string }[] = []
+// Organizers publish Round 2 explicitly. The calendar never changes this flag.
+export const schedule = {
+  round2Published: false,
+  round1: {
+    title: 'Round 1 · Online round',
+    date: '1–15 January 2027',
+    location: 'Online participation',
+    steps: ['Problem statements and submissions', 'Evaluation of submissions'],
+  },
+  results: {
+    title: 'Round 1 results showcase',
+    window: 'Expected in the last two weeks of January 2027',
+  },
+  round2: {
+    title: 'Round 2 · On-site hackathon',
+    date: event.date,
+    location: event.venue,
+    description: 'The detailed on-site programme will be shared by the organizers.',
+  },
+} as const
 export const prizes: { title: string; detail: string }[] = []
 export const sponsors: { name: string; logo?: string; url?: string }[] = []
 
