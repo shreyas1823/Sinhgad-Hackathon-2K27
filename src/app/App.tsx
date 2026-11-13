@@ -11,7 +11,8 @@ import HeroDotGrid from '../components/HeroDotGrid'
 import TracksSection from '../components/TracksSection'
 import ScheduleSection from '../components/ScheduleSection'
 import PrizesSection from '../components/PrizesSection'
-import { event, navigation, faqs, sponsors } from '../config/event'
+import SponsorsSection from '../components/SponsorsSection'
+import { event, navigation, faqs } from '../config/event'
 import { useNavigationSound } from '../components/useNavigationSound'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -288,7 +289,7 @@ function App() {
       <TracksSection />
       <ScheduleSection />
       <PrizesSection />
-      <section className="sponsors-section section-wrap" id="sponsors" aria-labelledby="sponsors-title"><div className="section-intro"><p className="section-label">Sponsors & partners / 06</p><h2 id="sponsors-title">Built through <em>connection.</em></h2></div><div className="sponsor-surface"><div><span>HOST INSTITUTION</span><strong>{event.college}</strong></div><p>{sponsors.length ? 'Confirmed partners will be featured here.' : 'Sponsor and partner announcements are coming soon.'}</p></div></section>
+      <SponsorsSection />
       <section className="closing" id="register" aria-labelledby="closing-title"><p className="section-label">Join the experience / 07</p><h2 id="closing-title">Your Next Big Idea <em>Starts Here.</em></h2><p>Bring your team, your curiosity and your drive to build. The next step starts with registration.</p><a className="button-primary magnetic-button" href={event.registrationUrl} target="_blank" rel="noopener noreferrer">Register Now <ArrowUpRight size={18} aria-hidden="true" /></a><span className="closing-note">Teams of {event.teamSize} · Registration closes {event.registrationCloses}</span></section>
       <section className="faq-section section-wrap" id="faq" aria-labelledby="faq-title"><div className="section-intro"><p className="section-label">Questions / 08</p><h2 id="faq-title">Good to <em>know.</em></h2></div><div className="faq-list">{faqs.map(({ question, answer }) => <details key={question}><summary>{question}<span className="faq-icon" aria-hidden="true"><Plus className="faq-plus" size={20} /><Minus className="faq-minus" size={20} /></span></summary><p>{answer}</p></details>)}</div></section>
     </main>
