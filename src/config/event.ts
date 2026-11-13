@@ -23,7 +23,20 @@ export const navigation = [
   { label: 'FAQ', href: '#faq' },
 ] as const
 
-export const tracks: { title: string; description: string }[] = []
+export type ProblemStatement = {
+  id: string
+  category: string
+  title: string
+  description: string
+  tags?: string[]
+  detailsUrl?: string
+}
+
+// Populate only with organizer-confirmed content. Each round can be published independently.
+export const tracks: Record<'round1' | 'round2', ProblemStatement[]> = {
+  round1: [],
+  round2: [],
+}
 export const schedule: { time: string; title: string; description?: string }[] = []
 export const prizes: { title: string; detail: string }[] = []
 export const sponsors: { name: string; logo?: string; url?: string }[] = []

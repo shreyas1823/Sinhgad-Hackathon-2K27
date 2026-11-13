@@ -260,6 +260,31 @@ html.custom-cursor-active, html.custom-cursor-active body, html.custom-cursor-ac
 .tracks-sculpture { position: absolute; top: -24px; right: 0; width: 300px; height: 300px; pointer-events: none; opacity: .78; mask-image: linear-gradient(to bottom, #000 40%, transparent 94%); }
 .tracks-sculpture > img, .tracks-sculpture > svg { display: block; width: 100%; height: 100%; object-fit: contain; }
 .announcement-number { position: relative; z-index: 1; }
+.tracks-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 64px; perspective: 1000px; }
+.tracks-round + .tracks-round { margin-top: 64px; }
+.tracks-round-label { margin-top: 54px; color: #a9c7ef; font-family: var(--font-mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
+.tracks-round .tracks-grid { margin-top: 20px; }
+.track-card { --spot-x: 50%; --spot-y: 50%; --tilt-x: 0deg; --tilt-y: 0deg; position: relative; min-width: 0; min-height: 340px; border: 1px solid rgba(156,178,255,.21); border-radius: 12px; background: #0c142b; transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); transition: transform .32s ease, box-shadow .32s ease, border-color .32s ease; isolation: isolate; }
+.track-card::before { content: ''; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; background: radial-gradient(310px circle at var(--spot-x) var(--spot-y), rgba(110,217,255,.5), rgba(124,101,236,.2) 38%, transparent 70%); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+.track-card-surface { position: relative; display: flex; flex-direction: column; height: 100%; min-height: inherit; padding: clamp(24px, 2.5vw, 34px); overflow: hidden; border-radius: inherit; background: radial-gradient(ellipse at 90% 0%, rgba(86,101,200,.13), transparent 55%), #0c142b; }
+.track-card-surface::before { content: ''; position: absolute; inset: 0; background: radial-gradient(320px circle at var(--spot-x) var(--spot-y), rgba(74,191,231,.13), rgba(111,91,215,.06) 45%, transparent 75%); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+.track-card-meta, .track-card-footer { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: #95afe1; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.track-card-content { position: relative; z-index: 1; margin-top: auto; padding-top: 60px; }
+.track-card-content h3, .track-card-content p:first-child { max-width: 18ch; font-family: var(--font-display); font-size: clamp(24px, 2.2vw, 34px); font-weight: 600; line-height: 1.18; letter-spacing: -.04em; }
+.track-card-content > p:not(:first-child) { margin-top: 16px; color: #b6c3dd; line-height: 1.6; }
+.track-card-footer { align-items: end; margin-top: 34px; }
+.track-card-footer ul { display: flex; flex-wrap: wrap; gap: 7px; padding: 0; list-style: none; }
+.track-card-footer li { padding: 7px 9px; border: 1px solid rgba(156,178,255,.18); border-radius: 4px; letter-spacing: .06em; }
+.track-card-link { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; color: #c6eaff; text-decoration: none; }
+.track-card-link:focus-visible { outline: 2px solid #8ee4ff; outline-offset: 4px; }
+.track-card-announcement { grid-column: 1 / -1; min-height: 340px; }
+.track-card-announcement .track-card-content p { max-width: 650px; font-size: clamp(27px, 3vw, 43px); }
+.track-card-announcement .tracks-sculpture { top: 0; right: 3%; width: 340px; height: 340px; }
+.track-card-corner { position: absolute; right: 31px; bottom: 25px; color: rgba(154,205,255,.55); font-size: 23px; }
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .track-card:hover { border-color: rgba(125,185,255,.5); box-shadow: 0 22px 55px rgba(2,7,23,.34); } .track-card:hover::before, .track-card:hover .track-card-surface::before { opacity: 1; } }
+@media (max-width: 1100px) { .tracks-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 699px) { .tracks-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 42px; }.track-card { min-height: 300px; }.track-card-announcement .tracks-sculpture { top: -50px; right: -12px; width: 150px; height: 150px; opacity: .28; }.track-card-content { padding-top: 44px; } }
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) { .track-card { transform: none !important; transition: none; }.track-card::before, .track-card-surface::before { display: none; } }
 @media (max-width: 600px) { .tracks-sculpture { width: 220px; height: 220px; top: -10px; right: -45px; opacity: .5; } }
 @media (prefers-reduced-motion: reduce) {
   .faq-icon svg, .faq-list details::details-content { transition: none; }

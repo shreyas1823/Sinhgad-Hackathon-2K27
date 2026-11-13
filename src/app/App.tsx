@@ -8,8 +8,8 @@ import Lenis from 'lenis'
 import HeroGlobe from '../components/HeroGlobe'
 import MagneticCursor from '../components/MagneticCursor'
 import HeroDotGrid from '../components/HeroDotGrid'
-import TracksSculpture from '../components/TracksSculpture'
-import { event, navigation, faqs, tracks, schedule, prizes, sponsors } from '../config/event'
+import TracksSection from '../components/TracksSection'
+import { event, navigation, faqs, schedule, prizes, sponsors } from '../config/event'
 import { useNavigationSound } from '../components/useNavigationSound'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -283,7 +283,7 @@ function App() {
         <div className="story-panels">{story.map((item) => <article className="story-panel" key={item.number}><span className="story-number">{item.number} / 03</span><h3>{item.word}</h3><p>{item.detail}</p></article>)}</div>
         <div className="story-progress" aria-hidden="true"><span /><span /><span /></div>
       </section>
-      <section className="announcement-section section-wrap" id="tracks" aria-labelledby="tracks-title"><div className="announcement-heading"><p className="section-label">Innovation tracks / 03</p><h2 id="tracks-title">The next challenge is <em>taking shape.</em></h2></div><div className="announcement-panel"><span className="announcement-number">01 / OPEN POSSIBILITIES</span><p>{tracks.length ? 'Explore the confirmed problem statements.' : 'Problem statements and innovation tracks will be announced soon.'}</p><TracksSculpture /></div></section>
+      <TracksSection />
       <section className="schedule-section section-wrap" id="schedule" aria-labelledby="schedule-title"><div className="section-intro"><p className="section-label">Event schedule / 04</p><h2 id="schedule-title">A timeline for <em>what’s next.</em></h2><p>The detailed programme will be shared once it is confirmed by the organizers.</p></div><div className="timeline"><span className="timeline-line" aria-hidden="true" /><div className="timeline-item"><span className="timeline-dot" /><span>01</span><strong>{schedule.length ? 'Programme' : 'Schedule announcement'}</strong><p>{schedule.length ? 'Confirmed schedule entries will appear here.' : 'Session timings and the event flow are coming soon.'}</p></div></div></section>
       <section className="prizes-section section-wrap" id="prizes" aria-labelledby="prizes-title"><p className="section-label">Prizes & rewards / 05</p><div className="prizes-layout"><h2 id="prizes-title">Make room for <em>the reveal.</em></h2><div><svg className="prizes-spark" width="75" height="90" viewBox="0 0 80 96" fill="none" aria-hidden="true" focusable="false"><defs><linearGradient id="prize-spark-stroke" x1="12" y1="10" x2="68" y2="86" gradientUnits="userSpaceOnUse"><stop stopColor="#a6ddff" /><stop offset="1" stopColor="#a36bff" /></linearGradient></defs><path d="M40 10 47 39 68 48 47 57 40 86 33 57 12 48 33 39Z" stroke="url(#prize-spark-stroke)" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" /></svg><p>{prizes.length ? 'Confirmed rewards will be published here.' : 'Prize details will be revealed by the organizers. Stay tuned for the official announcement.'}</p></div></div></section>
       <section className="sponsors-section section-wrap" id="sponsors" aria-labelledby="sponsors-title"><div className="section-intro"><p className="section-label">Sponsors & partners / 06</p><h2 id="sponsors-title">Built through <em>connection.</em></h2></div><div className="sponsor-surface"><div><span>HOST INSTITUTION</span><strong>{event.college}</strong></div><p>{sponsors.length ? 'Confirmed partners will be featured here.' : 'Sponsor and partner announcements are coming soon.'}</p></div></section>
