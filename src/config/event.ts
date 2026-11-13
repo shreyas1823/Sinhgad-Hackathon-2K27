@@ -57,7 +57,11 @@ export const schedule = {
     description: 'The detailed on-site programme will be shared by the organizers.',
   },
 } as const
-export const prizes: { title: string; detail: string }[] = []
+// Publish only after the organizers confirm every entry.
+export const prizes: { published: boolean; awards: { title: string; detail: string }[] } = {
+  published: false,
+  awards: [],
+}
 export const sponsors: { name: string; logo?: string; url?: string }[] = []
 
 export const faqs = [
