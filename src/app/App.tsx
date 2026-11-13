@@ -13,6 +13,7 @@ import ScheduleSection from '../components/ScheduleSection'
 import PrizesSection from '../components/PrizesSection'
 import SponsorsSection from '../components/SponsorsSection'
 import FaqSection from '../components/FaqSection'
+import RegistrationSection from '../components/RegistrationSection'
 import { event, navigation } from '../config/event'
 import { useNavigationSound } from '../components/useNavigationSound'
 
@@ -291,8 +292,8 @@ function App() {
       <ScheduleSection />
       <PrizesSection />
       <SponsorsSection />
-      <section className="closing" id="register" aria-labelledby="closing-title"><p className="section-label">Join the experience / 07</p><h2 id="closing-title">Your Next Big Idea <em>Starts Here.</em></h2><p>Bring your team, your curiosity and your drive to build. The next step starts with registration.</p><a className="button-primary magnetic-button" href={event.registrationUrl} target="_blank" rel="noopener noreferrer">Register Now <ArrowUpRight size={18} aria-hidden="true" /></a><span className="closing-note">Teams of {event.teamSize} · Registration closes {event.registrationCloses}</span></section>
       <FaqSection />
+      <RegistrationSection />
     </main>
     <footer className="site-footer"><div><a href="#home" className="brand">Sinhgad <span>Hackathon</span> 2K27<small>{event.college}</small></a><p>{event.name}</p></div><nav aria-label="Footer navigation">{navigation.map(({ label, href }) => <a href={href} key={href}>{label}</a>)}<a href={event.registrationUrl} target="_blank" rel="noopener noreferrer">Register Now <ArrowUpRight className="footer-icon" size={13} aria-hidden="true" /></a></nav><div className="footer-bottom"><span>© 2027 {event.college}</span><a href="#home">Back to top <ArrowUp className="footer-icon" size={12} aria-hidden="true" /></a></div></footer>
   </div>
