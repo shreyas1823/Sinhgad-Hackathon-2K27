@@ -64,10 +64,15 @@ export const prizes: { published: boolean; awards: { title: string; detail: stri
 }
 export const sponsors: { name: string; logo?: string; url?: string }[] = []
 
-export const faqs = [
+type Faq = { question: string; answer: string; link?: { href: string; label: string } }
+
+export const faqs: Faq[] = [
   { question: 'When and where is the hackathon?', answer: `${event.name} is listed for ${event.date} at ${event.time} in ${event.venue}. These details are awaiting organizer reconfirmation.` },
-  { question: 'What is the registration fee?', answer: `The registration page lists ${event.fee}. Please check the registration page for the latest information.` },
-  { question: 'What is the allowed team size?', answer: `The registration page lists teams of ${event.teamSize}.` },
-  { question: 'How do I register?', answer: 'Use any Register Now link on this page to open the existing Happenium registration page.' },
-  { question: 'When does registration close?', answer: `The listed closing date is ${event.registrationCloses}. Please confirm this on the registration page.` },
-] as const
+  { question: 'Is there a registration fee?', answer: `The registration page lists a fee of ${event.fee}. Please check that page for the latest information.` },
+  { question: 'What is the team size?', answer: `The registration page lists teams of ${event.teamSize}. Please check that page for the latest information.` },
+  { question: 'How can I register?', answer: 'Registration is available through the existing Happenium registration page.', link: { href: event.registrationUrl, label: 'Open registration page' } },
+  { question: 'What is the registration deadline?', answer: `The listed deadline is ${event.registrationCloses}. Please verify it on the registration page.`, link: { href: event.registrationUrl, label: 'Verify registration deadline' } },
+  { question: 'Are problem statements available?', answer: tracks.round1.length || tracks.round2.length ? 'Published problem statements are available in the Tracks section.' : 'Problem statements are not currently published. They will appear in the Tracks section when announced.', link: { href: '#tracks', label: 'View tracks' } },
+  { question: 'Have prizes been announced?', answer: prizes.published && prizes.awards.length ? 'Confirmed prize details are available in the Prizes section.' : 'Prize details are not currently published. They will appear in the Prizes section when confirmed.', link: { href: '#prizes', label: 'View prizes' } },
+  { question: 'Are sponsors confirmed?', answer: sponsors.length ? 'Confirmed organizations are listed in the Sponsors section.' : 'Sponsor details are not currently published. Confirmed organizations will appear in the Sponsors section.', link: { href: '#sponsors', label: 'View sponsors' } },
+]
