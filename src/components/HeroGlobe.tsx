@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import './hero-globe.css'
 
 const GlobeScene = lazy(() => import('./globe/GlobeScene'))
 
@@ -17,8 +17,16 @@ export default function HeroGlobe() {
   const [canRender] = useState(() => supportsWebGL())
   const [inViewport, setInViewport] = useState(true)
   const [pageVisible, setPageVisible] = useState(() => !document.hidden)
-  const reducedMotion = useReducedMotion()
+  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const renderContinuously = !reducedMotion && inViewport && pageVisible
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const onMotionChange = () => setReducedMotion(media.matches)
+    media.addEventListener('change', onMotionChange)
+    onMotionChange()
+    return () => media.removeEventListener('change', onMotionChange)
+  }, [])
 
   useEffect(() => {
     const element = container.current
@@ -37,12 +45,9 @@ export default function HeroGlobe() {
   }, [])
 
   return (
-    <motion.div
+    <div
       ref={container}
-      className="relative h-full w-full touch-pan-y"
-      initial={reducedMotion ? false : { opacity: 0, scale: 0.94 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.9, ease: 'easeOut' }}
+      className="hero-globe-entrance relative h-full w-full touch-pan-y"
       role="img"
       aria-label="Interactive digital globe with glowing geographic networks; drag to rotate"
     >
@@ -56,6 +61,6 @@ export default function HeroGlobe() {
           <GlobeScene reducedMotion={Boolean(reducedMotion)} renderContinuously={renderContinuously} />
         </Suspense>
       )}
-    </motion.div>
+    </div>
   )
 }
