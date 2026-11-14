@@ -159,11 +159,17 @@ function App() {
       if (event.key === 'Escape') {
         setMenuOpen(false)
         trigger?.focus({ preventScroll: true })
+      } else if (event.key === 'Tab' && event.shiftKey && document.activeElement === nav.current?.querySelector('a[href]')) {
+        event.preventDefault()
+        setMenuOpen(false)
+        trigger?.focus({ preventScroll: true })
       }
     }
     const onPointerDown = (event: PointerEvent) => {
       if (event.target instanceof Node && !nav.current?.contains(event.target) && !trigger?.contains(event.target)) {
-        if (nav.current?.contains(document.activeElement)) trigger?.focus({ preventScroll: true })
+        if (nav.current?.contains(document.activeElement) && !(event.target instanceof Element && event.target.closest('a, button, input, select, textarea, [tabindex]'))) {
+          requestAnimationFrame(() => trigger?.focus({ preventScroll: true }))
+        }
         setMenuOpen(false)
       }
     }

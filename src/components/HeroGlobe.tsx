@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
 const GlobeScene = lazy(() => import('./globe/GlobeScene'))
@@ -13,11 +13,32 @@ function supportsWebGL() {
 }
 
 export default function HeroGlobe() {
+  const container = useRef<HTMLDivElement>(null)
   const [canRender] = useState(() => supportsWebGL())
+  const [inViewport, setInViewport] = useState(true)
+  const [pageVisible, setPageVisible] = useState(() => !document.hidden)
   const reducedMotion = useReducedMotion()
+  const renderContinuously = !reducedMotion && inViewport && pageVisible
+
+  useEffect(() => {
+    const element = container.current
+    if (!element) return
+    const observer = new IntersectionObserver(([entry]) => {
+      setInViewport(entry.isIntersecting && entry.intersectionRatio >= 0.05)
+    }, { threshold: [0, 0.05] })
+    const onVisibilityChange = () => setPageVisible(!document.hidden)
+    observer.observe(element)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    onVisibilityChange()
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [])
 
   return (
     <motion.div
+      ref={container}
       className="relative h-full w-full touch-pan-y"
       initial={reducedMotion ? false : { opacity: 0, scale: 0.94 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -32,7 +53,7 @@ export default function HeroGlobe() {
         </div>
       ) : (
         <Suspense fallback={<div className="h-full w-full" />}>
-          <GlobeScene reducedMotion={Boolean(reducedMotion)} />
+          <GlobeScene reducedMotion={Boolean(reducedMotion)} renderContinuously={renderContinuously} />
         </Suspense>
       )}
     </motion.div>

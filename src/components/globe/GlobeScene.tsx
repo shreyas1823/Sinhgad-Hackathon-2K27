@@ -249,9 +249,9 @@ function GlobeGeometry({ reducedMotion, compact }: { reducedMotion: boolean; com
   </>
 }
 
-export default function GlobeScene({ reducedMotion }: { reducedMotion: boolean }) {
+export default function GlobeScene({ reducedMotion, renderContinuously }: { reducedMotion: boolean; renderContinuously: boolean }) {
   const [compact] = useState(() => window.matchMedia('(max-width: 899px)').matches || ((navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8) <= 4)
-  return <Canvas camera={{ position: [0, 0, 6.6], fov: 43 }} dpr={[1, 1.5]} frameloop={reducedMotion ? 'demand' : 'always'} gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}>
+  return <Canvas camera={{ position: [0, 0, 6.6], fov: 43 }} dpr={[1, 1.5]} frameloop={renderContinuously ? 'always' : 'demand'} gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}>
     <group rotation={[.13, 1.1, -.08]}><GlobeGeometry reducedMotion={reducedMotion} compact={compact} /></group>
     <OrbitControls enablePan={false} enableZoom={false} enableDamping dampingFactor={.06} rotateSpeed={.55} autoRotate={false} />
   </Canvas>
