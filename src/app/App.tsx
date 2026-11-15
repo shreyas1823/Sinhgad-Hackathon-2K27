@@ -55,6 +55,22 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState('home')
   const { enabled: soundEnabled, toggle: toggleSound, play: playSound, playEffect, preset, setPreset, preview } = useNavigationSound()
+  useEffect(() => {
+    const hash = window.location.hash
+    const initialTargets = ['#home', '#about', '#tracks', '#schedule', '#prizes', '#sponsors', '#faq', '#register']
+    if (!initialTargets.includes(hash)) return
+    const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    if (navigationEntry?.type === 'back_forward') return
+
+    const frame = requestAnimationFrame(() => {
+      if (window.location.hash !== hash || window.scrollY > 0) return
+      const target = document.getElementById(hash.slice(1))
+      if (target && target.getBoundingClientRect().top >= window.innerHeight) {
+        target.scrollIntoView({ behavior: 'instant' })
+      }
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [])
   useGSAP(() => {
     const screen = document.getElementById('boot-screen')
     if (!screen) return
