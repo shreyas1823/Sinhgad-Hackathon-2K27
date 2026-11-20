@@ -149,7 +149,7 @@ section[id] { scroll-margin-top: 78px; }
 .button-primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 50px; padding: 0 22px; border: 1px solid #a1b9ff; border-radius: 3px; color: #061023 !important; background: linear-gradient(110deg,#a6ddff,#b1a7ff); font-size: 13px; font-weight: 700; box-shadow: 0 12px 40px rgba(67,101,245,.2); transition: transform .2s, box-shadow .2s; }
 .button-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 45px rgba(67,101,245,.32); }
 .button-text { display: inline-flex; align-items: center; gap: 9px; color: white; font-size: 13px; font-weight: 700; }
-@media (pointer: coarse) { .hero-actions .button-text { min-height: 44px; } }
+.hero-actions .button-text { min-height: 44px; }
 .hero-copy .hero-meta { margin-top: 24px; color: #c6d2ea; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .hero-meta span { color: #7c8cae; padding: 0 7px; }
 .section-wrap { position: relative; padding: clamp(100px,11vw,170px) clamp(24px,7vw,110px); }
