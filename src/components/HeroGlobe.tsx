@@ -48,8 +48,7 @@ export default function HeroGlobe() {
     <div
       ref={container}
       className="hero-globe-entrance relative h-full w-full touch-pan-y"
-      role="img"
-      aria-label="Interactive digital globe with glowing geographic networks; drag to rotate"
+      aria-hidden="true"
     >
       <div className="pointer-events-none absolute inset-[12%] rounded-full bg-cyan-500/10 blur-[70px]" aria-hidden="true" />
       {canRender === false ? (

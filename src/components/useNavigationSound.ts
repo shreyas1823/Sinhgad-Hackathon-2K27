@@ -53,10 +53,8 @@ export function useNavigationSound() {
     if (enabledRef.current) {
       enabledRef.current = false
       setEnabled(false)
-      ;(['button', 'section', 'register'] as const).forEach((effect) => media.current[effect]?.pause())
+      ;(['button', 'section', 'register', 'toggle'] as const).forEach((effect) => media.current[effect]?.pause())
       void context.current?.suspend().catch(() => {})
-      const audio = getMedia('toggle')
-      if (audio) { audio.currentTime = 0; void audio.play().catch(() => {}) }
       return
     }
     try {
