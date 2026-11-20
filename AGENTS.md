@@ -13,7 +13,7 @@ Project for SKN Sinhgad College of Engineering. Apply these instructions to work
 - Use Three.js and React Three Fiber for 3D experiences.
 - Use GSAP with ScrollTrigger for cinematic scrolling and complex timelines; use `@gsap/react` for React lifecycle management.
 - Use Lenis for smooth scrolling and synchronize it with ScrollTrigger when both are active.
-- Use Framer Motion for smaller interface interactions. Give each animation one owner rather than implementing competing versions across libraries.
+- Use CSS or GSAP for smaller interface interactions as appropriate. Give each animation one owner rather than implementing competing versions across libraries.
 
 ## Motion principles
 
